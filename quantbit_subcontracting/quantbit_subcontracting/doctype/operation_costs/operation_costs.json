@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-06 10:57:09.297750",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "operations",
+  "cost",
+  "is_check",
+  "definition_cost",
+  "process_order_cost"
+ ],
+ "fields": [
+  {
+   "fieldname": "operations",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Operations",
+   "options": "Account"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Cost"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_check",
+   "fieldtype": "Check",
+   "label": "IS check"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "definition_cost",
+   "fieldtype": "Float",
+   "label": "Definition Cost",
+   "precision": "2"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "process_order_cost",
+   "fieldtype": "Float",
+   "label": "Process Order Cost",
+   "precision": "2"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-06-06 10:57:09.297750",
+ "modified_by": "Administrator",
+ "module": "Quantbit Subcontracting",
+ "name": "Operation Costs",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

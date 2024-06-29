@@ -1,0 +1,90 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:finished_item",
+ "creation": "2024-05-27 13:53:47.400472",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "finished_item",
+  "finished_item_name",
+  "column_break_ckq42",
+  "company",
+  "uom",
+  "raw_items_material_section",
+  "raw_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "finished_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Finished Item Code",
+   "options": "Item",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "raw_items",
+   "fieldtype": "Table",
+   "label": "Raw Items",
+   "options": "Subcontracting Raw Item",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "finished_item.item_name",
+   "fieldname": "finished_item_name",
+   "fieldtype": "Data",
+   "label": "Finished Item Name"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "Finished Item UOM",
+   "options": "UOM"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ckq42",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "raw_items_material_section",
+   "fieldtype": "Section Break",
+   "label": "Raw Items Material"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-05-27 18:23:46.063975",
+ "modified_by": "Administrator",
+ "module": "Quantbit Subcontracting",
+ "name": "Subcontracting BOM",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

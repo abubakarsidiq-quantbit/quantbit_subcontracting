@@ -1,0 +1,304 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-27 14:33:05.970696",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "raw_item_code",
+  "column_break_es340",
+  "raw_item_name",
+  "column_break_mkooe",
+  "batch_id",
+  "column_break_5qayb",
+  "process_ord_id",
+  "section_break_o7huc",
+  "target_warehouse",
+  "column_break_mzuhn",
+  "source_warehouse",
+  "column_break_syqhi",
+  "available_quantity",
+  "section_break_uprej",
+  "description",
+  "gst_hsn_code",
+  "section_break_bt96p",
+  "production_quantity",
+  "total_rate",
+  "column_break_boxed",
+  "uom",
+  "column_break_gyznc",
+  "weight_per_unit",
+  "column_break_4jbwn",
+  "rate",
+  "column_break_ids1r",
+  "production_done_quantity",
+  "gst_details_section",
+  "igst_rate",
+  "igst_amount",
+  "column_break_8jug8",
+  "cgst_rate",
+  "cgst_amount",
+  "column_break_2ypus",
+  "sgst_rate",
+  "sgst_amount",
+  "column_break_jpym5",
+  "cess_rate",
+  "cess_amount",
+  "is_non_gst",
+  "column_break_oehhj",
+  "cess_non_advol_rate",
+  "cess_non_advol_amount",
+  "taxable_value"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "raw_item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Raw Item Code",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_es340",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 2,
+   "fetch_from": "raw_item_code.item_name",
+   "fieldname": "raw_item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Raw Item Name"
+  },
+  {
+   "fieldname": "column_break_mkooe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_o7huc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "target_warehouse",
+   "fieldtype": "Link",
+   "label": "Target Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_mzuhn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_warehouse",
+   "fieldtype": "Link",
+   "label": "Source Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "column_break_syqhi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "available_quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Availabe Quantity"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_uprej",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "gst_hsn_code",
+   "fieldtype": "Link",
+   "label": "HSN/SAC",
+   "options": "GST HSN Code"
+  },
+  {
+   "fieldname": "section_break_bt96p",
+   "fieldtype": "Section Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "production_quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Production Quantity ",
+   "reqd": 1,
+   "width": "10px"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "Unit of Measurement",
+   "options": "UOM"
+  },
+  {
+   "columns": 1,
+   "fieldname": "weight_per_unit",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Weight Per Unit"
+  },
+  {
+   "fieldname": "column_break_4jbwn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "production_done_quantity",
+   "fieldtype": "Float",
+   "label": "Production Done Quantity",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "gst_details_section",
+   "fieldtype": "Section Break",
+   "label": "GST Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "igst_rate",
+   "fieldtype": "Data",
+   "label": "IGST Rate"
+  },
+  {
+   "fieldname": "igst_amount",
+   "fieldtype": "Data",
+   "label": "IGST Amount"
+  },
+  {
+   "fieldname": "column_break_8jug8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "cgst_rate",
+   "fieldtype": "Data",
+   "label": "CGST Rate"
+  },
+  {
+   "fieldname": "cgst_amount",
+   "fieldtype": "Data",
+   "label": "CGST Amount"
+  },
+  {
+   "fieldname": "column_break_2ypus",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "sgst_rate",
+   "fieldtype": "Data",
+   "label": "SGST Rate"
+  },
+  {
+   "fieldname": "sgst_amount",
+   "fieldtype": "Data",
+   "label": "SGST Amount"
+  },
+  {
+   "fieldname": "column_break_jpym5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cess_rate",
+   "fieldtype": "Data",
+   "label": "CESS Rate"
+  },
+  {
+   "fieldname": "cess_amount",
+   "fieldtype": "Data",
+   "label": "CESS Amount"
+  },
+  {
+   "fieldname": "is_non_gst",
+   "fieldtype": "Data",
+   "label": "Is Non GST "
+  },
+  {
+   "fieldname": "column_break_oehhj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cess_non_advol_rate",
+   "fieldtype": "Data",
+   "label": "CESS Non Advol Rate"
+  },
+  {
+   "fieldname": "cess_non_advol_amount",
+   "fieldtype": "Data",
+   "label": "CESS Non Advol Amount"
+  },
+  {
+   "fieldname": "taxable_value",
+   "fieldtype": "Float",
+   "label": "Taxable Value"
+  },
+  {
+   "fieldname": "column_break_gyznc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ids1r",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_boxed",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "batch_id",
+   "fieldtype": "Link",
+   "label": "Batch ID",
+   "options": "Batch"
+  },
+  {
+   "fieldname": "column_break_5qayb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "rate",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Rate"
+  },
+  {
+   "fieldname": "total_rate",
+   "fieldtype": "Float",
+   "label": "Total Rate"
+  },
+  {
+   "fieldname": "process_ord_id",
+   "fieldtype": "Link",
+   "label": "Process Order Id",
+   "options": "Job Offer Process"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-06-04 14:20:00.625505",
+ "modified_by": "Administrator",
+ "module": "Quantbit Subcontracting",
+ "name": "Out Subcontracting Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

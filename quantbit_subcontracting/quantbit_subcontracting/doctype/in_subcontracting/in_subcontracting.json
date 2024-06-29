@@ -1,0 +1,387 @@
+{
+ "_comments": "[]",
+ "_liked_by": "[]",
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "NFPL/IN/.####",
+ "creation": "2024-05-27 17:13:24.302615",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "supplier",
+  "supplier_name",
+  "department",
+  "column_break_iehnm",
+  "posting_date",
+  "posting_time",
+  "wip_warehouse",
+  "column_break_iehnm1",
+  "company",
+  "source_warehouse",
+  "target_warehouse",
+  "section_break_hrax3",
+  "get_item_list",
+  "out_item",
+  "subcontracting_items_section",
+  "in_material",
+  "section_break_amn7r",
+  "in_items",
+  "section_break_yreeb",
+  "raw_products_qty",
+  "column_break_exvev",
+  "finished_products_qty",
+  "column_break_k0jcq",
+  "finished_products_amount",
+  "operation_cost_section",
+  "operation_cost",
+  "section_break_shr0h",
+  "total_operation_cost",
+  "column_break_rrx7j",
+  "total_manufacturing_cost",
+  "column_break_if4fc",
+  "tot_amount",
+  "scrap_section",
+  "scrap",
+  "section_break_xx6ro",
+  "scrap_qty",
+  "scrap_amount",
+  "section_break_12b3x",
+  "bifurcation",
+  "taxes_section",
+  "taxes_and_charges",
+  "taxes",
+  "totals_section",
+  "total_weight",
+  "column_break_ulbu0",
+  "outstanding_amount",
+  "total_amount",
+  "rounded_total",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "In Subcontracting",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Supplier",
+   "options": "Supplier",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "supplier.supplier_name",
+   "fieldname": "supplier_name",
+   "fieldtype": "Data",
+   "label": "Supplier Name"
+  },
+  {
+   "fieldname": "column_break_iehnm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "posting_time",
+   "fieldtype": "Time",
+   "label": "Posting Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_iehnm1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "source_warehouse",
+   "fieldtype": "Link",
+   "label": "Source Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "target_warehouse",
+   "fieldtype": "Link",
+   "label": "Target Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "subcontracting_items_section",
+   "fieldtype": "Section Break",
+   "label": "Subcontracting Items"
+  },
+  {
+   "fieldname": "in_items",
+   "fieldtype": "Table",
+   "label": "Finished Items",
+   "options": "In Subcontracting Item"
+  },
+  {
+   "fieldname": "taxes_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Taxes and Charges"
+  },
+  {
+   "fieldname": "taxes_and_charges",
+   "fieldtype": "Link",
+   "label": "Sales Taxes and Charges Template",
+   "options": "Sales Taxes and Charges Template"
+  },
+  {
+   "fieldname": "taxes",
+   "fieldtype": "Table",
+   "hidden": 1,
+   "label": "Sales Taxes and Charges",
+   "options": "Sales Taxes and Charges"
+  },
+  {
+   "fieldname": "totals_section",
+   "fieldtype": "Section Break",
+   "label": "Totals"
+  },
+  {
+   "fieldname": "total_weight",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Total Weight"
+  },
+  {
+   "fieldname": "column_break_ulbu0",
+   "fieldtype": "Column Break",
+   "hidden": 1
+  },
+  {
+   "fieldname": "outstanding_amount",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Outstanding Amount",
+   "options": "currency"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Total Amount",
+   "options": "currency"
+  },
+  {
+   "fieldname": "rounded_total",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Rounded Total"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "In Subcontracting",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_hrax3",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "get_item_list",
+   "fieldtype": "Button",
+   "label": "Get Item List"
+  },
+  {
+   "fieldname": "out_item",
+   "fieldtype": "Table",
+   "label": "Out Item List",
+   "options": "Get Item List"
+  },
+  {
+   "fieldname": "bifurcation",
+   "fieldtype": "Table",
+   "hidden": 1,
+   "label": "Bifurcation ",
+   "options": "Bifurcation Items"
+  },
+  {
+   "fieldname": "operation_cost_section",
+   "fieldtype": "Section Break",
+   "label": "Operation Cost"
+  },
+  {
+   "fieldname": "operation_cost",
+   "fieldtype": "Table",
+   "label": "Operation Cost",
+   "options": "Operation Costs"
+  },
+  {
+   "fieldname": "total_operation_cost",
+   "fieldtype": "Float",
+   "label": "Total Operation Cost"
+  },
+  {
+   "fieldname": "finished_products_qty",
+   "fieldtype": "Float",
+   "label": "Total Qty"
+  },
+  {
+   "fieldname": "finished_products_amount",
+   "fieldtype": "Float",
+   "label": "Total Finished Amount"
+  },
+  {
+   "fieldname": "column_break_exvev",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_yreeb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "wip_warehouse",
+   "fieldtype": "Link",
+   "label": "WIP Warehuse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "raw_products_qty",
+   "fieldtype": "Float",
+   "label": "Total Raw Qty"
+  },
+  {
+   "fieldname": "column_break_k0jcq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_amn7r",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "in_material",
+   "fieldtype": "Table",
+   "label": "In Raw Material",
+   "options": "Material Items"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Manufacturing Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "scrap_section",
+   "fieldtype": "Section Break",
+   "label": "Scrap"
+  },
+  {
+   "fieldname": "scrap",
+   "fieldtype": "Table",
+   "label": "Scrap",
+   "options": "Scrap Item"
+  },
+  {
+   "fieldname": "section_break_12b3x",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Bifurcation"
+  },
+  {
+   "fieldname": "scrap_qty",
+   "fieldtype": "Float",
+   "label": "Total Scrap Qty"
+  },
+  {
+   "fieldname": "section_break_xx6ro",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "tot_amount",
+   "fieldtype": "Float",
+   "label": "Total Output Amount"
+  },
+  {
+   "fieldname": "column_break_rrx7j",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_shr0h",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "scrap_amount",
+   "fieldtype": "Float",
+   "label": " Total Scrap Amount"
+  },
+  {
+   "fieldname": "total_manufacturing_cost",
+   "fieldtype": "Float",
+   "label": "Total Manufacturing Cost"
+  },
+  {
+   "fieldname": "column_break_if4fc",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "link_doctype": "Process Order",
+   "link_fieldname": "custom_in_subcontracting"
+  },
+  {
+   "link_doctype": "Stock Entry",
+   "link_fieldname": "custom_in_subcontracting"
+  }
+ ],
+ "modified": "2024-06-29 11:23:36.598666",
+ "modified_by": "Administrator",
+ "module": "Quantbit Subcontracting",
+ "name": "In Subcontracting",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
