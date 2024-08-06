@@ -104,7 +104,6 @@ class InSubcontracting(Document):
 			ref_doc = frappe.get_doc("Out Subcontracting", ref_cha.ref_challan)
 			for itm in ref_doc.get("material"):
 				remaining_qty = (itm.quantity - itm.production_done_quantity + 1)
-				# if self.raw_products_qty <= float(remaining_qty):
 				if itm.item == ref_cha.raw_item:
 					if remaining_qty >= float(ref_cha.raw_qty):
 						itm.production_done_quantity = itm.production_done_quantity + float(ref_cha.raw_qty)
@@ -120,7 +119,7 @@ class InSubcontracting(Document):
 				ref_doc.save()
 				ref_doc.submit()
 			else:
-				frappe.msgprint(str(remaining_qty))
+				frappe.throw(f"{remaining_qty} {float(self.scrap_qty)}")
 				frappe.throw(f"Raw item quantity exceeds remaining quantity for batch {itm.batch_no}.")
 
 	@frappe.whitelist()

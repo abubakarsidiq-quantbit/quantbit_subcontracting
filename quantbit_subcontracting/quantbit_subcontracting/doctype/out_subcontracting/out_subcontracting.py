@@ -11,10 +11,10 @@ from frappe.query_builder.functions import Sum
 
 class OutSubcontracting(Document):	
 	def on_submit(self):
-		self.stock_transfer_stock_entry('material', 'item' , 'quantity' , 'batch_no', 'source_warehouse' , 'target_warehouse')
+		self.stock_transfer_stock_entry('material', 'item', 'quantity', 'batch_no', 'source_warehouse', 'target_warehouse', 'cost_center')
 
 	@frappe.whitelist()
-	def stock_transfer_stock_entry(self, table , item_code , quantity , batch_no, source_warehouse , target_warehouse):
+	def stock_transfer_stock_entry(self, table, item_code, quantity, batch_no, source_warehouse, target_warehouse, cost_center):
 		se = frappe.new_doc("Stock Entry")
 		se.stock_entry_type = "Material Transfer"
 		se.company = self.company
@@ -23,31 +23,38 @@ class OutSubcontracting(Document):
 		for d in self.get(table):
 			if d.get(quantity):
 				if d.get(batch_no):
-					se.append("items",
+					if d.get(cost_center):
+						cst =  d.get(cost_center)
+						se.append("items",
 								{
 									"item_code": d.get(item_code),
 									"qty": d.get(quantity),
-									"s_warehouse": self.source_warehouse,
-									"t_warehouse": self.target_warehouse,
-									"batch_no": d.get(batch_no)
+									"s_warehouse": self.get(source_warehouse),
+									"t_warehouse": self.get(target_warehouse),
+									"batch_no": d.get(batch_no),
+									"cost_center": cst
 								})
+					else:
+						frappe.throw("Cost Center is Mandatory")
 				else:
 					frappe.throw("Batch No is Mandatory")
 			else:
-				frappe.throw("Stock Entry Can`t Done Without")
-		se.custom_out_subcontracting = self.name	
+				frappe.throw("Quantity is Mandatory")
+		se.custom_out_subcontracting = self.name
+		se.cost_center = cst
 		if se.items:
 			se.insert()
 			se.save()
 			se.submit()
+
 
 	@frappe.whitelist()
 	def update_batch_no(self):
 		po_doc = frappe.get_doc("Job Offer Process",self.process_order)
 		###################
 		basic_rate = self.get_batch_incoming_rate(self.material[0].item, po_doc.src_warehouse, self.material[0].batch_no, self.posting_date, self.posting_time)
-		self.material[0].rate = basic_rate
-		self.material[0].amount = self.material[0].quantity * basic_rate
+		self.material[0].rate = basic_rate if basic_rate is not None else 0
+		self.material[0].amount = self.material[0].quantity * (basic_rate if basic_rate is not None else 0)
 
 	def get_batch_incoming_rate(self, item_code, warehouse, batch_no, posting_date, posting_time, creation=None):
 		import datetime
@@ -89,10 +96,10 @@ class OutSubcontracting(Document):
 			self.append("material",{
 				'item':mt_doc.item,
 				'yeild':mt_doc.yeild,
-				'rate':amount,
+				'rate':amount if amount else 0.0,
 				'uom':mt_doc.uom,
 				'quantity':mt_doc.quantity,
-				'amount':mt_doc.quantity * amount,
+				'amount':mt_doc.quantity * amount if amount else 0.0,
 				'item_name':mt_doc.item_name,
 				'in_qty':mt_doc.in_qty,
 				'manufacturing_rate':mt_doc.manufacturing_rate,
