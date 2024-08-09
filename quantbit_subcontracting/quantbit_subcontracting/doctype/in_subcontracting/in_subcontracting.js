@@ -3,7 +3,7 @@
 
 var finished = []
 frappe.ui.form.on('In Subcontracting', {
-    get_item_list: function (frm) {
+    supplier: function (frm) {
         frm.call({
             method: 'get_item_list',
             doc: frm.doc,
@@ -99,84 +99,46 @@ frappe.ui.form.on('Get Item List', {
 
 frappe.ui.form.on("Material Items", {
     quantity: function(frm, cdt, cdn){
-        var row = locals[cdt][cdn];
-        row.amount = row.quantity * row.rate;
-        frm.refresh_field('in_material');
+        var d = locals[cdt][cdn];
+        var doc = frm.doc;
+        frappe.model.set_value(cdt,cdn,'amount',(d.quantity * d.rate))
+        frm.call({
+            method: 'get_updated_qty_finished_item_list',
+            doc: frm.doc,
+            callback: function (r) {
+                if (r.message) {
+                    frm.refresh_field(['uom'])
+                    frm.refresh_field('in_material')
+                    frm.refresh_field('in_items')
+                    console.log(r.message)
+                }
+            }
+        });
     }
 });
-
-
-// frappe.ui.form.on("In Subcontracting Items", {
-//     qty: function(frm, cdt, cdn){
-//         var row = locals[cdt][cdn];
-//         row.amount = row.qty * row.rate;
-//         frm.refresh_field('in_items');
-        // frm.call({
-        //     method:'get_total',
-        //     doc: frm.doc,
-        //     callback: function(r){
-        //         if (r.message){
-        //             console.log(r.message);
-        //             frm.set_value('raw_products_qty', r.message.raw_products_qty)
-        //             frm.set_value('finished_products_qty', r.message.finished_products_qty);
-        //             frm.set_value('finished_products_amount', r.message.finished_products_amount);
-        //             frm.refresh_field('raw_products_qty');
-        //             frm.refresh_field('finished_products_qty');
-        //             frm.refresh_field('finished_products_amount');
-        //         }
-        //     }
-        // })
-//     },
-//     raw_qty: function(frm, cdt, cdn){
-//         var row = locals[cdt][cdn];
-//         row.amount = row.qty * row.rate;
-//         frm.refresh_field('in_items');
+// doc.in_items.forEach(function(row) {
+//     if(row.ref_challan === d.referance_challan && row.batch_id === d.batch_no){
 //         frappe.call({
-//             method:'get_total',
-//             doc: frm.doc,
-//             callback: function(r){
-//                 if (r.message){
-//                     console.log(r.message);
-//                     frm.set_value('raw_products_qty', r.message.raw_products_qty)
-//                     frm.set_value('finished_products_qty', r.message.finished_products_qty);
-//                     frm.set_value('finished_products_amount', r.message.finished_products_amount);
-//                     frm.refresh_field('raw_products_qty');
-//                     frm.refresh_field('finished_products_qty');
-//                     frm.refresh_field('finished_products_amount');
+//             method: 'frappe.client.get',
+//             args: {
+//                 doctype: 'Job Offer Process',
+//                 name: process_def
+//             },
+//             callback: function(response) {
+//                 var process_def_doc = response.message;
+//                 if (process_def_doc) {
+//                     // Process the fetched document
+//                     console.log('Fetched Job Offer Process:', process_def_doc);
+
+//                     // Example: Set a value from the fetched document
+//                     frappe.model.set_value('YourDoctype', frm.docname, 'field_name', process_def_doc.field_name);
+
+//                     // Refresh the form after making changes
+//                     frm.refresh();
+//                 } else {
+//                     frappe.msgprint('Document not found');
 //                 }
 //             }
 //         })
-//     },
-//     qty: function(frm, cdt, cdn){
-//         var row = locals[cdt][cdn];
-//         row.amount = row.qty * row.rate;
-//         frm.refresh_field('in_items');
 //     }
-// });
-
-// frappe.ui.form.on('In Subcontracting Items', {
-//     qty: function (frm, cdt, cdn) {
-//         var d = locals[cdt][cdn];
-//         frappe.msgprint(String(d))
-//         frm.call({
-//             method: "get_total",
-//             doc: frm.doc,
-//             callback: function (r) {
-//                 if (r.message) {
-//                     console.log(r.message)
-//                 }
-//             }
-//         });
-//     }
-// });
-
-
-// setup: function(frm) {
-//     frm.set_query("finished_item", "in_items", function(doc, cdt, cdn) {
-//         let d = locals[cdt][cdn];+
-
-//         return {
-//             filters: [['Subcontracting BOM','finished_item', 'in', finished]]
-//         };
-//     });
-// },
+// })

@@ -4,7 +4,7 @@ import json
 import os
 
 @frappe.whitelist()
-def generate_e_invoice_json(docname):
+def generate_e_bill(docname):
     doc = load_doc("Out Subcontracting", docname)
 
     sup_data = frappe.get_doc("Address", doc.company_address)
@@ -29,7 +29,7 @@ def generate_e_invoice_json(docname):
         id+=1
         item_dict ={
             "SlNo": id,
-            "PrdDesc": d.description,
+            "PrdDesc": d.item_name,
             "IsServc": "N",
             "HsnCd": d.gst_hsn_code,
             "Qty": d.production_quantity,

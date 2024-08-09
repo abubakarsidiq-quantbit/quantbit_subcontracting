@@ -11,7 +11,7 @@ from frappe.query_builder.functions import Sum
 
 class OutSubcontracting(Document):	
 	def on_submit(self):
-		self.stock_transfer_stock_entry('material', 'item', 'quantity', 'batch_no', 'source_warehouse', 'target_warehouse', 'cost_center')
+		self.stock_transfer_stock_entry('items', 'item', 'quantity', 'batch_no', 'source_warehouse', 'target_warehouse', 'cost_center')
 
 	@frappe.whitelist()
 	def stock_transfer_stock_entry(self, table, item_code, quantity, batch_no, source_warehouse, target_warehouse, cost_center):
@@ -20,22 +20,19 @@ class OutSubcontracting(Document):
 		se.company = self.company
 		se.set_posting_time = True
 		se.posting_date = self.posting_date
+		cst =  self.get(cost_center)
 		for d in self.get(table):
 			if d.get(quantity):
 				if d.get(batch_no):
-					if d.get(cost_center):
-						cst =  d.get(cost_center)
-						se.append("items",
-								{
-									"item_code": d.get(item_code),
-									"qty": d.get(quantity),
-									"s_warehouse": self.get(source_warehouse),
-									"t_warehouse": self.get(target_warehouse),
-									"batch_no": d.get(batch_no),
-									"cost_center": cst
-								})
-					else:
-						frappe.throw("Cost Center is Mandatory")
+					se.append("items",
+							{
+								"item_code": d.get(item_code),
+								"qty": d.get(quantity),
+								"s_warehouse": self.get(source_warehouse),
+								"t_warehouse": self.get(target_warehouse),
+								"batch_no": d.get(batch_no),
+								"cost_center": cst
+							})
 				else:
 					frappe.throw("Batch No is Mandatory")
 			else:
@@ -52,9 +49,10 @@ class OutSubcontracting(Document):
 	def update_batch_no(self):
 		po_doc = frappe.get_doc("Job Offer Process",self.process_order)
 		###################
-		basic_rate = self.get_batch_incoming_rate(self.material[0].item, po_doc.src_warehouse, self.material[0].batch_no, self.posting_date, self.posting_time)
-		self.material[0].rate = basic_rate if basic_rate is not None else 0
-		self.material[0].amount = self.material[0].quantity * (basic_rate if basic_rate is not None else 0)
+		basic_rate = self.get_batch_incoming_rate(self.items[0].item, self.source_warehouse, self.items[0].batch_no, self.posting_date, self.posting_time)
+		# frappe.msgprint(f"basic_rate: {basic_rate}, source_warehouse: {self.source_warehouse}")
+		self.items[0].rate = basic_rate if basic_rate is not None else 0
+		self.items[0].amount = self.items[0].quantity * (basic_rate if basic_rate is not None else 0)
 
 	def get_batch_incoming_rate(self, item_code, warehouse, batch_no, posting_date, posting_time, creation=None):
 		import datetime
@@ -88,12 +86,12 @@ class OutSubcontracting(Document):
 
 	@frappe.whitelist()
 	def get_material_transfer_list(self):
-		self.material.clear()
+		self.items.clear()
 		po_doc = frappe.get_doc("Job Offer Process",self.process_order)
 		for mt_doc in po_doc.get("materials"):
 			################################################
 			amount = self.get_batch_incoming_rate(mt_doc.item, po_doc.src_warehouse, mt_doc.batch_no, self.posting_date, self.posting_time)
-			self.append("material",{
+			self.append("items",{
 				'item':mt_doc.item,
 				'yeild':mt_doc.yeild,
 				'rate':amount if amount else 0.0,
@@ -147,11 +145,11 @@ class OutSubcontracting(Document):
 	def before_save(self):
 		tot_taxable_amount = 0.00
 		tot_amount = tot_weight = 0
-		for i in self.material:
+		comp_state = frappe.get_value("Address", {"address_title": self.company}, 'state')
+		supp_state = frappe.get_value("Address", {"address_title": self.supplier}, 'state')
+		for i in self.items:
 			item_doc = frappe.get_doc("Item", {'name':i.item})
 			tax_rate = frappe.get_value("Item Tax Template", {'name':item_doc.taxes[0].item_tax_template}, 'gst_rate')
-			comp_state = frappe.get_value("Address", {"address_title": self.company}, 'state')
-			supp_state = frappe.get_value("Address", {"address_title": self.supplier}, 'state')
 
 			tot_amount += i.amount
 			# tot_weight += (i.quantity * i.weight_per_unit)
@@ -217,13 +215,13 @@ class OutSubcontracting(Document):
 
 # def on_cancel(self):
 # 	po = frappe.get_doc("Job Offer Process",self.process_order)
-# 	raw_qty = sum(qty.quantity for qty in self.material)
+# 	raw_qty = sum(qty.quantity for qty in self.items)
 # 	po.quantity += raw_qty
 # 	po.save()
 # 	po.submit()
 
 # po = frappe.get_doc("Job Offer Process",self.process_order)
-# raw_qty = sum(qty.quantity for qty in self.material)
+# raw_qty = sum(qty.quantity for qty in self.items)
 # if raw_qty <= po.quantity:
 # 	pass
 # 	po.quantity -= raw_qty
@@ -250,19 +248,19 @@ class OutSubcontracting(Document):
 # 		frappe.throw("No Data Avilable For Respective Batch or Warehouse")
 
 ###################
-# if self.material[0].batch_no:
-# 	bal = frappe.get_all("Stock Ledger Entry",filters={'item_code':self.material[0].item, 'warehouse':po_doc.src_warehouse,'batch_no':self.material[0].batch_no})
+# if self.items[0].batch_no:
+# 	bal = frappe.get_all("Stock Ledger Entry",filters={'item_code':self.items[0].item, 'warehouse':po_doc.src_warehouse,'batch_no':self.items[0].batch_no})
 # 	if bal:
 # 		balance = frappe.get_doc("Stock Ledger Entry",bal[0]['name'],{'stock_value','qty_after_transaction','stock_value_difference','valuation_rate'})
-# 		# basic_rate = (float(balance.stock_value) + float(balance.stock_value_difference))/(float(balance.qty_after_transaction) - self.material[0].quantity)
+# 		# basic_rate = (float(balance.stock_value) + float(balance.stock_value_difference))/(float(balance.qty_after_transaction) - self.items[0].quantity)
 # 		basic_rate = balance.valuation_rate
 # 	else:
 # 		frappe.throw("No Data Avilable For Respective Batch or Warehouse")
 # else:
-# 	bal = frappe.get_all("Stock Ledger Entry",filters={'item_code':self.material[0].item, 'warehouse':po_doc.src_warehouse,'batch_no': self.material[0].batch_no})
+# 	bal = frappe.get_all("Stock Ledger Entry",filters={'item_code':self.items[0].item, 'warehouse':po_doc.src_warehouse,'batch_no': self.items[0].batch_no})
 # 	if bal:
 # 		balance = frappe.get_doc("Stock Ledger Entry",bal[0]['name'],{'stock_value','qty_after_transaction','stock_value_difference','valuation_rate'})
-# 		# basic_rate = (float(balance.stock_value) + float(balance.stock_value_difference))/(float(balance.qty_after_transaction) - self.material[0].quantity)
+# 		# basic_rate = (float(balance.stock_value) + float(balance.stock_value_difference))/(float(balance.qty_after_transaction) - self.items[0].quantity)
 # 		basic_rate = balance.valuation_rate
 # 	else:
 # 		frappe.throw("No Data Avilable For Respective Batch or Warehouse")

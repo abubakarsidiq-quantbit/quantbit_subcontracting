@@ -30,7 +30,7 @@ frappe.ui.form.on("Out Subcontracting", {
             method: 'get_material_transfer_list',
             doc: frm.doc,
             callback: function(r){
-                frm.refresh_field('material')
+                frm.refresh_field('items')
                 console.log(r.message);
             }
         })
@@ -58,23 +58,23 @@ frappe.ui.form.on("Out Subcontracting", {
 });
 
 
-frappe.ui.form.on("Material Items", {
+frappe.ui.form.on("Out Subcontracting Item", {
     quantity: function(frm, cdt, cdn){
         var row = locals[cdt][cdn];
         row.amount = row.quantity * row.rate;
-        frm.refresh_field('material');
+        frm.refresh_field('items');
     },
     rate: function(frm, cdt, cdn){
         var row = locals[cdt][cdn];
         row.amount = row.quantity * row.rate;
-        frm.refresh_field('material');
+        frm.refresh_field('items');
     },
     batch_no: function(frm){
         frappe.call({
             method: 'update_batch_no',
             doc: frm.doc,
             callback: function(r){
-                frm.refresh_field('material')
+                frm.refresh_field('items')
                 console.log(r.message);
             }
         })
@@ -83,12 +83,12 @@ frappe.ui.form.on("Material Items", {
 
 
 
-// frappe.ui.form.on("Material Items", {
+// frappe.ui.form.on("Out Subcontracting Item", {
 //     quantity: function(frm, cdt, cdn) {
 //         var row = locals[cdt][cdn];
 //         if (row && typeof row.quantity !== 'undefined' && typeof row.rate !== 'undefined') {
 //             row.amount = row.quantity * row.rate;
-//             frm.refresh_field('material');
+//             frm.refresh_field('items');
 //         } else {
 //             console.error('Row, quantity, or rate is undefined:', row);
 //         }
@@ -97,7 +97,7 @@ frappe.ui.form.on("Material Items", {
 //         var row = locals[cdt][cdn];
 //         if (row && typeof row.quantity !== 'undefined' && typeof row.rate !== 'undefined') {
 //             row.amount = row.quantity * row.rate;
-//             frm.refresh_field('material');
+//             frm.refresh_field('items');
 //         } else {
 //             console.error('Row, quantity, or rate is undefined:', row);
 //         }

@@ -1,6 +1,4 @@
 {
- "_comments": "[]",
- "_liked_by": "[]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "NFPL/IN/.####",
@@ -13,16 +11,17 @@
   "supplier",
   "supplier_name",
   "department",
+  "process_order",
   "column_break_iehnm",
   "posting_date",
   "posting_time",
-  "wip_warehouse",
+  "cost_center",
   "column_break_iehnm1",
   "company",
   "source_warehouse",
   "target_warehouse",
+  "wip_warehouse",
   "section_break_hrax3",
-  "get_item_list",
   "out_item",
   "subcontracting_items_section",
   "in_material",
@@ -210,11 +209,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "get_item_list",
-   "fieldtype": "Button",
-   "label": "Get Item List"
-  },
-  {
    "fieldname": "out_item",
    "fieldtype": "Table",
    "label": "Out Item List",
@@ -346,6 +340,20 @@
   {
    "fieldname": "column_break_if4fc",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center",
+   "reqd": 1
+  },
+  {
+   "fieldname": "process_order",
+   "fieldtype": "Link",
+   "label": "Process_Order",
+   "options": "Job Offer Process",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -360,7 +368,7 @@
    "link_fieldname": "custom_in_subcontracting"
   }
  ],
- "modified": "2024-06-29 11:23:36.598666",
+ "modified": "2024-08-08 14:12:03.171413",
  "modified_by": "Administrator",
  "module": "Quantbit Subcontracting",
  "name": "In Subcontracting",
